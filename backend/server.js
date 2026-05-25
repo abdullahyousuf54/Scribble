@@ -5,21 +5,29 @@ const http = require("http");
 const { Server } = require("socket.io");
 const path = require("path");
 const dotenv = require("dotenv");
+dotenv.config({ path: "../.env" });
+
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || "http://localhost:3000,http://localhost:3001")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
 const server = http.createServer(app);
 const io = new Server(server, {
   pingTimeout: 60000,
   cors: {
-    origin: "http://localhost:3001",
-    //origin: "*"
+    origin: allowedOrigins,
   },
   connectionStateRecovery: {},
 });
 // const port = 3001;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: allowedOrigins,
+  })
+);
 app.use(express.json());  
-dotenv.config({path:'../.env'});
 
 
 
@@ -40,10 +48,10 @@ if (process.env.NODE_ENV === "production") {
 //--------DEPLOYMENT---------
 
 
-let port_no = process.env.PORT;
+let port_no = process.env.PORT || 3001;
 
 server.listen(port_no, () => {
-  console.log(`Example app listening on port 3001`);
+  console.log(`Example app listening on port ${port_no}`);
 });
 
 
@@ -212,4 +220,3 @@ io.on("connection", (socket) => {
     }
   });
 });
-
