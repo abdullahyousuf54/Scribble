@@ -79,4 +79,20 @@ To get a local copy up and running, follow these steps:
 
 3. **Chat:**
     - Use the in-game chat to communicate with other players during the game.
+
+## Deploy on Render
+
+Create a single **Web Service** in Render for this repository.
+
+- **Build Command:** `npm run build`
+- **Start Command:** `npm start`
+
+Set these environment variables in Render:
+
+- `NODE_ENV=production`
+- `ALLOWED_ORIGINS=https://<your-render-service>.onrender.com`
+- `REACT_APP_SOCKET_URL=https://<your-render-service>.onrender.com`
+
+Optional:
+- `PORT` is provided automatically by Render. You usually don't need to set it manually.
 # Scribble

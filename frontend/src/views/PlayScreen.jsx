@@ -33,9 +33,7 @@ function PlayScreen() {
   const navigate = useNavigate()
   const location = useLocation()
   const userDataRecieved = location.state || {};
-  //const ENDPOINT = "https://skribblay-you.onrender.com/";
-  const ENDPOINT = "http://localhost:3001/";
-  const ENDPOINT_LOCAL = "http://localhost:3001/";
+  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL || window.location.origin;
   useEffect(() => {
     console.log("user Data recieved", userDataRecieved)
     let us = localStorage.getItem("username")
@@ -43,9 +41,7 @@ function PlayScreen() {
       navigate("/")
       return;
     }
-    const newSocket = io.connect(process.env.REACT_APP_NODE_ENV === "production"
-    ? ENDPOINT
-    : ENDPOINT_LOCAL, );
+    const newSocket = io.connect(SOCKET_URL);
     // console.log(newSocket);
     setSocket(newSocket);
     // newSocket.emit("player-joined",newSocket.id)
